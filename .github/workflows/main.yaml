@@ -45,4 +45,5 @@ jobs:
             docker stop express-backend-app || true
             docker rm express-backend-app || true
             docker run -d --name express-backend-app -p 3000:3000 \
+              -e MONGODB_URI=${{ secrets.MONGODB_URI }} \
               ${{ secrets.DOCKERHUB_USERNAME }}/groomton-express-image:latest

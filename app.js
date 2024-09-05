@@ -1,17 +1,18 @@
 const express = require('express');
+const connectDB = require('./config/db');
+const userRoutes = require('./routes/user');
+require('dotenv').config();
+
 const app = express();
-const port = 3000;
 
-app.get('/', (req, res) => {
-    res.send('<h1>Welcome</h1><p>This is a simple page without a template engine.</p>');
-});
+// Middleware
+app.use(express.json());
 
-app.get('/api/user', (req, res) => {
-    res.json({ name: 'John Doe', age: 30 });
-});
+// Connect to MongoDB
+connectDB();
 
-app.use(express.static('public'));
+// Routes
+app.use('/api/users', userRoutes);
 
-app.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}`);
-});
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
