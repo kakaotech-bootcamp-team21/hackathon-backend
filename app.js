@@ -7,9 +7,13 @@ const path = require('path');
 const connectDB = require('./config/db');
 const userRoutes = require('./routes/user');
 const fairytaleRoutes = require('./routes/fairytale');
+const cors = require('cors');
+
 require('dotenv').config();
 
 const app = express();
+
+app.use(cors());
 
 // AWS SDK v3로 S3 클라이언트 설정
 const s3 = new S3Client({
