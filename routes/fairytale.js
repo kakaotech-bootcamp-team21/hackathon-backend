@@ -1,5 +1,7 @@
 const express = require('express');
 const Fairytale = require('../models/fairytale');
+const { generateStory, generateImage } = require('../service/aiService');
+
 
 const router = express.Router();
 
@@ -58,18 +60,33 @@ router.post('/creation', async (req,res) =>{
         // const storyId=1;
         // const title="hi"
         // const parts=[{"partId":1,"content":"string","imageUrl":"string"}]
+        // 사용 예제
+
+        var generatedStoryResult; 
+
+        generateStory(keyword, message)
+            .then(result => {
+                generatedStoryResult = result;
+                console.log('Generated Story:', result.paragraphs);
+                console.log('Endpoints:', result.endpoints);
+                console.log('Generated Images URLs:', result.images);
+            });
 
 
+
+        
         // api 응답 처리 
         const newFairytale = new Fairytale({
             storyId: 1,
             title: 'title',
-            parts: [{"partId":1,"content":"string","imageUrl":"string"}]
+            parts: [{"partId":"1","content":"string","imageUrl":"string"}]
         });
         
+        
 
-        await newFairytale.save();
-        res.status(201).json(newFairytale);
+        // await newFairytale.save();
+        res.status(201).json(generatedStoryResult);
+
 
     } catch (error) {
         console.error("API Error:", error);
