@@ -50,5 +50,6 @@ jobs:
               -e AWS_SECRET_ACCESS_KEY="${{ secrets.AWS_SECRET_ACCESS_KEY }}" \
               -e AWS_REGION="${{ secrets.AWS_REGION }}" \
               -e S3_BUCKET_NAME="${{ secrets.S3_BUCKET_NAME }}" \
+              -e OPENAI_API_KEY="${{ secrets.S3_BUCKET_NAME }}" \
               ${{ secrets.DOCKERHUB_USERNAME }}/groomton-express-image:latest
 
