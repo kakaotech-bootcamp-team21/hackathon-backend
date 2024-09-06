@@ -63,7 +63,7 @@ async function generateStoryOrigin(changestory, ifstory) {
     Change the ending to match '${ifstory}'.
 
     General instructions:
-    - The story should be 50 words long.
+    - The story should be 100 to 150 words long.
     - Use simple language appropriate for young children.
     - Maintain a warm, nurturing tone as if a parent is telling the story.
     - Write the story in Korean.
