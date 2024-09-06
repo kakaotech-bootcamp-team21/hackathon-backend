@@ -46,5 +46,9 @@ jobs:
             docker rm express-backend-app || true
             docker run -d --name express-backend-app -p 3000:3000 \
               -e MONGODB_URI="${{ secrets.MONGODB_URI }}" \
+              -e AWS_ACCESS_KEY_ID="${{ secrets.AWS_ACCESS_KEY_ID }}" \
+              -e AWS_SECRET_ACCESS_KEY="${{ secrets.AWS_SECRET_ACCESS_KEY }}" \
+              -e AWS_REGION="${{ secrets.AWS_REGION }}" \
+              -e S3_BUCKET_NAME="${{ secrets.S3_BUCKET_NAME }}" \
               ${{ secrets.DOCKERHUB_USERNAME }}/groomton-express-image:latest
 
