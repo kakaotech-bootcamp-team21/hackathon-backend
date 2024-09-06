@@ -7,7 +7,7 @@ const OPENAI_API_URL = 'https://api.openai.com/v1';
 
 // 프롬프트 엔지니어링 함수
 function generatePrompt(theme, lesson) {
-    const prompt = `Create stories that are appropriate for kids ages 3-5. The main character of the story is '${theme}', and it should teach the lesson of '${lesson}'. Make sure the story is simple, fun, and age-appropriate. make story's max words between 150 to 200. Write the story in Korean.`;
+    const prompt = `Create stories that are appropriate for kids ages 3-5. The main character of the story is '${theme}', and it should teach the lesson of '${lesson}'. Make sure the story is simple, fun, and age-appropriate. make story's max words between 100 to 150. divide story to at least 5 paragraph. Write the story in Korean.`;
     return prompt;
 }
 
