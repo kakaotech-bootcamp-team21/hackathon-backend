@@ -1,7 +1,7 @@
 const express = require('express');
 const Fairytale = require('../models/fairytale');
 const { generateStory, generateImage } = require('../service/aiService');
-
+const mongoose = require('mongoose');
 
 const router = express.Router();
 
@@ -17,7 +17,9 @@ router.get('/entire', async (req,res) =>{
 
 router.post('/origin', async (req,res) =>{
     const { title, ifCondition } = req.body;
-    // MongoDB에 사용자 데이터 저장일단 안하고 ai쪽으로 보냄
+    
+    // 몽고디비에서 맨 마지막 storyId를 가져오기 
+
 
     try {
         // 요청 데이터 
@@ -45,12 +47,11 @@ router.post('/origin', async (req,res) =>{
 });
 
 router.post('/creation', async (req,res) =>{
-    const { title, keyword, message } = req.body;
+    const { keyword, message } = req.body;
 
     try {
         // 요청 데이터 
         const requestData = {
-            title,
             keyword,
             message
         };
@@ -62,30 +63,42 @@ router.post('/creation', async (req,res) =>{
         // const parts=[{"partId":1,"content":"string","imageUrl":"string"}]
         // 사용 예제
 
-        var generatedStoryResult; 
+        const lastFairytale = await Fairytale.findOne().sort({ storyId: -1 });
+        const storyId = lastFairytale ? lastFairytale.storyId + 1 : 1;
 
-        generateStory(keyword, message)
-            .then(result => {
-                generatedStoryResult = result;
-                console.log('Generated Story:', result.paragraphs);
-                console.log('Endpoints:', result.endpoints);
-                console.log('Generated Images URLs:', result.images);
-            });
+        const generatedStoryResult = await generateStory(keyword, message);
+        const { paragraphs, endpoints, images} = generatedStoryResult;
+
+        const parts = paragraphs.map((paragraph, index) => ({
+            partId: index + 1,
+            content: paragraph,
+            imageUri: images[index]
+        }));
 
 
+            // .then(result => {
+            //     generatedStoryResult = result;
+            //     console.log('Generated Story:', result.paragraphs);
+            //     console.log('Endpoints:', result.endpoints);
+            //     console.log('Generated Images URLs:', result.images);
+            // });
 
         
         // api 응답 처리 
+        // const newFairytale = new Fairytale({
+        //     storyId: 1,
+        //     title: 'title',
+        //     parts: [{"partId":"1","content":"string","imageUrl":"string"}]
+        // });
+
         const newFairytale = new Fairytale({
-            storyId: 1,
-            title: 'title',
-            parts: [{"partId":"1","content":"string","imageUrl":"string"}]
+            storyId,
+            parts
         });
         
-        
 
-        // await newFairytale.save();
-        res.status(201).json(generatedStoryResult);
+        await newFairytale.save();
+        res.status(201).json(newFairytale);
 
 
     } catch (error) {

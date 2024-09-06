@@ -12,10 +12,6 @@ const fairytaleSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
-    title: {
-        type: String,
-        required: true,
-    },
     parts: [partSchema]
 });
 
