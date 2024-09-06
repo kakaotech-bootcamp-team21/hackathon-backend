@@ -48,7 +48,6 @@ connectDB();
 app.use('/api/users', userRoutes);
 app.use('/api/fairytale', fairytaleRoutes);
 
-
 // S3 여러 파일 업로드 핸들러
 app.post('/upload', upload.array('images', 10), (req, res) => {
     // 성공적으로 업로드된 파일 정보는 req.files에 담겨 있습니다.
@@ -85,8 +84,6 @@ app.get('/download/:filename', async (req, res) => {
       res.status(500).send('Error downloading file');
     }
   });
-
-  
 
 const PORT = process.env.PORT || 3000;
 
