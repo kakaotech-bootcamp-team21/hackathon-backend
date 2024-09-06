@@ -3,6 +3,16 @@ const Fairytale = require('../models/fairytale');
 
 const router = express.Router();
 
+router.get('/entire', async (req,res) =>{
+    try{
+        const fairytales = await Fairytale.find();
+        res.status(200).json(fairytales);
+    } catch (error) {
+        console.error("API Error: ", error);
+        res.status(500).json({ message: 'server error'});
+    }
+});
+
 router.post('/origin', async (req,res) =>{
     const { title, ifCondition } = req.body;
     // MongoDB에 사용자 데이터 저장일단 안하고 ai쪽으로 보냄
@@ -45,16 +55,16 @@ router.post('/creation', async (req,res) =>{
 
         //AI 함수 호출 코드 작성 필요함
 
-        const storyId=1;
-        const title="hi"
-        const parts=[{"partId":1,"content":"string","imageUrl":"string"}]
+        // const storyId=1;
+        // const title="hi"
+        // const parts=[{"partId":1,"content":"string","imageUrl":"string"}]
 
 
         // api 응답 처리 
         const newFairytale = new Fairytale({
-            storyId,
-            title,
-            parts
+            storyId: 1,
+            title: 'title',
+            parts: [{"partId":1,"content":"string","imageUrl":"string"}]
         });
         
 
