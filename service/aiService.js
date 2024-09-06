@@ -54,6 +54,7 @@ async function generateImage(description) {
 
 // 동화 생성 함수
 async function generateStory(theme, lesson) {
+    console.log("start!")
     const prompt = generatePrompt(theme, lesson);
     try {
         const response = await axios.post(
@@ -85,7 +86,7 @@ async function generateStory(theme, lesson) {
             const imageUrl = await generateImage(paragraph);
             images.push(imageUrl);
         }
-
+        console.log("end!")
         return { paragraphs, endpoints, images };
 
     } catch (error) {
