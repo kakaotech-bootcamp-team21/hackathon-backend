@@ -14,9 +14,9 @@ router.post('/origin', async (req,res) =>{
             ifCondition
         };
 
-        const response = await axios.post("", requestData, {
+        // const response = await axios.post("", requestData, {
             
-        });
+        // });
 
         // api 응답 처리 확인
         res.json(response.data);
