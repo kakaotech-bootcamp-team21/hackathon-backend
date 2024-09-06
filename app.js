@@ -6,6 +6,7 @@ const { v4: uuidv4 } = require('uuid');
 const path = require('path');
 const connectDB = require('./config/db');
 const userRoutes = require('./routes/user');
+const fairytaleRoutes = require('./routes/fairytale');
 require('dotenv').config();
 
 const app = express();
@@ -43,6 +44,7 @@ connectDB();
 
 // Routes
 app.use('/api/users', userRoutes);
+app.use('/api/fairytale', fairytaleRoutes);
 
 
 // S3 여러 파일 업로드 핸들러
