@@ -6,7 +6,6 @@ const partSchema = new mongoose.Schema({
     imageUri: String
 })
 
-
 const fairytaleSchema = new mongoose.Schema({
     storyId : {
         type: Number,

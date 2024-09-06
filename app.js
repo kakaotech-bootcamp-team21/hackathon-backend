@@ -19,8 +19,6 @@ const s3 = new S3Client({
       secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
     },
   });
-  
-
 
 // multer 설정
 const upload = multer({
@@ -84,5 +82,8 @@ app.get('/download/:filename', async (req, res) => {
     }
   });
 
+  
+
 const PORT = process.env.PORT || 3000;
+
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

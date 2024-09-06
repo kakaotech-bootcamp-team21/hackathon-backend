@@ -1,5 +1,4 @@
 const express = require('express');
-const axios = require('axios');
 const Fairytale = require('../models/fairytale');
 
 const router = express.Router();
@@ -46,12 +45,18 @@ router.post('/creation', async (req,res) =>{
 
         //AI 함수 호출 코드 작성 필요함
 
+        const storyId=1;
+        const title="hi"
+        const parts=[{"partId":1,"content":"string","imageUrl":"string"}]
+
+
         // api 응답 처리 
         const newFairytale = new Fairytale({
             storyId,
             title,
             parts
         });
+        
 
         await newFairytale.save();
         res.status(201).json(newFairytale);
