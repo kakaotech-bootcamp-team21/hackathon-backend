@@ -1,5 +1,6 @@
 const express = require('express');
 const axios = require('axios');
+const Fairytale = require('../models/fairytale');
 
 const router = express.Router();
 
@@ -14,15 +15,17 @@ router.post('/origin', async (req,res) =>{
             ifCondition
         };
 
-        // const response = await axios.post("", requestData, {
-            
-        // });
+        //AI 함수 호출 코드 작성 필요함
 
-        // api 응답 처리 확인
-        res.json(response.data);
+        // api 응답 처리 
+        const newFairytale = new Fairytale({
+            storyId,
+            title,
+            parts
+        });
 
-        // mongo db에 글 넣고, s3에 받아온 이미지 넣음
-        // 코드 작성 예정 
+        await newFairytale.save();
+        res.status(201).json(newFairytale);
 
     } catch (error) {
         console.error("API Error:", error);
@@ -41,15 +44,17 @@ router.post('/creation', async (req,res) =>{
             message
         };
 
-        const response = await axios.post("", requestData, {
-            
+        //AI 함수 호출 코드 작성 필요함
+
+        // api 응답 처리 
+        const newFairytale = new Fairytale({
+            storyId,
+            title,
+            parts
         });
 
-        // api 응답 처리 확인
-        res.json(response.data);
-
-        // mongo db에 글 넣고, s3에 받아온 이미지 넣음
-        // 코드 작성 예정 
+        await newFairytale.save();
+        res.status(201).json(newFairytale);
 
     } catch (error) {
         console.error("API Error:", error);
