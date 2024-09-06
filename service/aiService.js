@@ -65,7 +65,7 @@ async function generateStory(theme, lesson) {
                     { role: 'system', content: 'You are an author for children. Use only nice words.' },
                     { role: 'user', content: prompt }
                 ],
-                temperature: 0
+                temperature: 0.8
             },
             {
                 headers: {
