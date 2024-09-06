@@ -7,25 +7,20 @@ const OPENAI_API_URL = 'https://api.openai.com/v1';
 
 // 문장 분리 및 문단 엔드포인트 추출 함수
 function getParagraphsAndEndpoints(text) {
-  // 텍스트를 문장 단위로 분리
-  const sentences = text.trim().split(/(?<=[.!?]) +/);  // 정규식을 사용하여 문장 분리
-  const paragraphs = [];
-  const endpoints = [];
-  let startIndex = 0;
+    // GPT-4o API가 생성한 텍스트에서 문단과 각 문단의 엔드포인트를 추출하는 함수
+    const paragraphs = text.split('\n\n');  // 두 줄 바꿈(\n\n)으로 문단을 나눔
+    const endpoints = [];
+    let startIndex = 0;
 
-  // 두 문장씩 묶어서 문단으로 생성
-  for (let i = 0; i < sentences.length; i += 2) {
-    const paragraph = sentences.slice(i, i + 2).join(' ');
-    paragraphs.push(paragraph);
+    paragraphs.forEach((paragraph) => {
+        // 각 문단의 끝 인덱스를 계산하여 저장x
+        const endIndex = startIndex + paragraph.length;
+        endpoints.push([startIndex, endIndex]);
+        // 다음 문단의 시작 인덱스 업데이트
+        startIndex = endIndex + 2;  // 두 줄 바꿈 포함
+    });
 
-    // 각 문단의 시작과 끝 인덱스 계산
-    const endIndex = startIndex + paragraph.length;
-    endpoints.push([startIndex, endIndex]);
-    // 다음 문단의 시작 인덱스 업데이트
-    startIndex = endIndex + 1;  // 문장 사이의 공백을 고려한 인덱스 추가
-  }
-
-  return { paragraphs, endpoints };
+    return { paragraphs, endpoints };
 }
 
 // 이미지 생성 함수
@@ -57,16 +52,13 @@ async function generateStoryOrigin(changestory, ifstory) {
   // 프롬프트 설정
   console.log("generateStoryOrigin start!")
   const prompt = `
-    You are a storyteller for children. Use only nice words.
-    Story creation guidelines:
+    You are an author for children. Use only nice words.
     Tell me the story of '${changestory}'.
     Change the ending to match '${ifstory}'.
 
-    General instructions:
-    - The story should be 100 to 150 words long.
-    - Use simple language appropriate for young children.
-    - Maintain a warm, nurturing tone as if a parent is telling the story.
-    - Write the story in Korean.
+    make story's max words between 150 to 200.
+    divide story to at least 5 paragraph. 
+    Write the story in Korean.
   `;
 
   // GPT 모델 호출
@@ -74,7 +66,7 @@ async function generateStoryOrigin(changestory, ifstory) {
     const response = await axios.post(
       `${OPENAI_API_URL}/chat/completions`,
       {
-        model: "gpt-4o",
+        model: "gpt-4",
         messages: [
           {
             role: "system",
@@ -101,7 +93,7 @@ async function generateStoryOrigin(changestory, ifstory) {
             content: `${changestory}, ${ifstory}`
           }
         ],
-        temperature: 0.8
+        temperature: 0.7
       },
       {
         headers: {
