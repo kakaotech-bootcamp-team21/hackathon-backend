@@ -56,7 +56,7 @@ async function generateStoryOrigin(changestory, ifstory) {
     Tell me the story of '${changestory}'.
     Change the ending to match '${ifstory}'.
 
-    make story's max words between 150 to 200.
+    make story's max words between 100 to 150.
     divide story to at least 5 paragraph. 
     Write the story in Korean.
   `;
