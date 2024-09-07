@@ -56,9 +56,12 @@ async function generateStoryOrigin(changestory, ifstory) {
     Tell me the story of '${changestory}'.
     Change the ending to match '${ifstory}'.
 
-    make story's max words between 100 to 150.
-    divide story to at least 5 paragraph. 
-    Write the story in Korean.
+    General instructions:
+    - Use simple language appropriate for young children.
+    - Maintain a warm, nurturing tone as if a parent is telling the story.
+    - the story should be 100-150 words long.
+    - divide story to at least 5 paragraph. 
+    - Write the story in Korean.
   `;
 
   // GPT 모델 호출
@@ -66,35 +69,45 @@ async function generateStoryOrigin(changestory, ifstory) {
     const response = await axios.post(
       `${OPENAI_API_URL}/chat/completions`,
       {
-        model: "gpt-4",
+        model: "gpt-4o",
         messages: [
           {
             role: "system",
             content: prompt
           },
-          {
-            role: "user",
-            content: `${changestory} is 'Snow White', ${ifstory} is 'if Snow White hadn't eaten the poisonous apple'`
-          },
-          {
-            role: "assistant",
-            content: `Once upon a time, deep in the forest, there lived a beautiful girl named Snow White... (이하 생략)`
-          },
-          {
-            role: "user",
-            content: `${changestory} is 'Cinderella', ${ifstory} is 'If Cinderella hadn't lost her glass slipper'`
-          },
-          {
-            role: "assistant",
-            content: `Once upon a time, there was a beautiful girl named Cinderella... (이하 생략)`
-          },
-          {
-            role: "user",
-            content: `${changestory}, ${ifstory}`
-          }
-        ],
-        temperature: 0.7
-      },
+          { role: "user", content: `${changestory} is 'Snow White', ${ifstory} is if snow white hadn't eaten the poisonous apple` },
+            { role: "assistant", content: `Once upon a time, deep in the forest, there lived a beautiful girl named Snow White. Snow White was a very pretty princess with fair skin and jet-black hair. But her stepmother, who had a bad heart, didn't like her very much. So Snow White ran away to the home of the Seven Dwarfs in the forest.
+
+The seven dwarfs loved and cared for Snow White very much, and she was happy living with them. But the Wicked Stepmother found out through a magic mirror that Snow White was still alive.
+
+One day, the Wicked Stepmother took a poisoned apple and tried to feed it to Snow White, but Snow White was wise enough not to eat it. ‘Thanks, but I just had lunch,’ said Snow White.
+
+The Wicked Stepmother was so surprised by this that she ran away. When the seven dwarves returned, Snow White thanked them for trying to protect her.
+
+‘How wise you were, Snow White! We were worrie` },
+            { role: "user", content: `${changestory} is 'Cinderella', ${ifstory} is If Cinderella hadn't lost my glass slipper` },
+            { role: "assistant", content: `Once upon a time, there was a beautiful girl named Cinderella. She lived with her stepmother and two stepsisters. Her stepmother and stepsisters made her do hard chores and were always mean to her. 
+
+One day, an invitation came to a glamorous ball at the royal palace. Cinderella wanted to go, but her stepmother and stepsisters wouldn't let her. Then a beautiful fairy appeared. ‘Cinderella, do you want to go to the ball?’ the fairy asked, and Cinderella nodded.
+
+The fairy worked her magic and made Cinderella a gorgeous dress and a beautiful glass slipper. ‘But at midnight, everything will be gone!’ the fairy warned. Cinderella smiled and nodded.
+
+When Cinderella arrived at the ball, the Prince saw her and fell in love at first sight. They danced together and had a happy time. But time passed and the clock struck midnight. But this time, Cinderella didn't lose her glass slipper.
+
+The prince asked her, ‘What is your name?’ Cinderella smiled and replied, ‘I'm Cinderella.’ The prince was delighted and asked, ‘So, can we meet again tomorrow?’ Cinderella nodded.
+
+The next day, the prince came to her house and asked her to marry him. She happily accepted. Her stepmother and step-sisters realised their mistake and apologised to her, and they all lived happily ever after.
+
+Cinderella and the prince lived happily ever after, loving each other even more because they hadn't lost the glass slipper. 
+
+And they lived a long and happy life.` },
+
+            { role: "user", content: `${changestory}, ${ifstory}` },
+            
+          ],
+          temperature : 0.7
+        },
+
       {
         headers: {
           'Authorization': `Bearer ${OPENAI_API_KEY}`,
