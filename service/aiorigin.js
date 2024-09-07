@@ -54,7 +54,7 @@ async function generateStoryOrigin(changestory, ifstory) {
   const prompt = `
     You are an author for children. Use only nice words.
     Tell me the story of '${changestory}'.
-    Change the ending to match '${ifstory}'.
+    Change the original story after '${ifstory}' event.
 
     General instructions:
     - Use simple language appropriate for young children.
